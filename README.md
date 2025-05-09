@@ -40,8 +40,8 @@ A robust, scalable solution for managing every aspect of the National Student Co
 ### 1. 🚀 Clone the Repository
 
 ```bash
-git clone https://github.com/hamdashahid/Nascon-Event-Management-System.git
-cd i230069_i230114_i221380-2
+git clone [https://github.com/hamdashahid/Nascon-Event-Management-System.git](https://github.com/hamdashahid/Nascon-Event-Management-System.git)
+cd Nascon-Event-Management-System
 ```
 
 ### 2. 📦 Install Dependencies
@@ -70,26 +70,28 @@ JWT_SECRET=your_jwt_secret
 ```bash
 mysql -u root -p < database/cleaned_schema.sql
 ```
-*You can also review `query.sql` for sample data and queries.*
+
+_You can also review `query.sql` for sample data and queries._
 
 ### 5. ▶️ Start the Server
 
 ```bash
 node server.js
 ```
+
 Server runs at: [http://localhost:3000](http://localhost:3000)
 
 ---
 
 ## 📡 Sample API Endpoints
 
-| Method | Endpoint         | Description                |
-|--------|------------------|----------------------------|
-| POST   | `/login`         | User login                 |
-| POST   | `/register`      | New user registration      |
-| GET    | `/events`        | List all events            |
-| POST   | `/sponsor`       | Add sponsor information    |
-| GET    | `/judges`        | Retrieve judge data        |
+| Method | Endpoint    | Description             |
+| ------ | ----------- | ----------------------- |
+| POST   | `/login`    | User login              |
+| POST   | `/register` | New user registration   |
+| GET    | `/events`   | List all events         |
+| POST   | `/sponsor`  | Add sponsor information |
+| GET    | `/judges`   | Retrieve judge data     |
 
 > _Expand this section with more endpoints as your API grows!_
 
