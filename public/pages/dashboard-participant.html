@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Dashboard - NASCON</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+    </style>
+    <!-- Scripts -->
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard-participant.js"></script>
+</head>
+
+<body class="min-h-screen font-sans bg-gray-100">
+    <!-- Navbar -->
+    <header class="fixed w-full z-30 top-0 left-0 transition-all duration-300">
+        <nav id="mainNavbar"
+            class="flex items-center justify-between px-8 py-4 bg-gradient-to-r from-indigo-900/80 to-blue-900/60 bg-opacity-70 backdrop-blur-lg border-b border-transparent shadow-none transition-all duration-300">
+            <div class="flex items-center gap-3">
+                <img src="../img/logo.png" alt="NASCON Logo" class="h-10 w-10 rounded-full shadow-lg">
+                <span
+                    class="font-extrabold text-2xl tracking-wider nav-title transition-colors duration-300">NASCON</span>
+            </div>
+            <div class="hidden md:flex gap-8 font-bold tracking-wide text-lg nav-links transition-colors duration-300">
+                <!-- <a href="../index.html#about" class="nav-link text-white transition-colors duration-300">About</a>
+                <a href="../pages/events.html" class="nav-link text-white transition-colors duration-300">Events</a>
+                <a href="../pages/sponsors.html"
+                    class="nav-link text-white transition-colors duration-300">Sponsorships</a>
+                <a href="../index.html#faqs" class="nav-link text-white transition-colors duration-300">FAQs</a>
+                <a href="../index.html#contact" class="nav-link text-white transition-colors duration-300">Contact</a> -->
+            </div>
+            <div class="flex gap-2">
+                <a id="logoutBtn" href="#"
+                    class="hidden md:inline-block py-2 px-5 bg-red-600 text-white rounded-lg font-bold tracking-wide hover:bg-red-700 transition shadow">Logout</a>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <nav id="mobileMenu"
+            class="md:hidden bg-white bg-opacity-90 border-t border-indigo-100 hidden flex-col gap-2 px-6 pb-4">
+            <!-- <a href="../index.html#about" class="block py-2 text-indigo-800 font-semibold">About</a>
+            <a href="../pages/events.html" class="block py-2 text-indigo-800 font-semibold">Events</a>
+            <a href="../pages/sponsors.html" class="block py-2 text-indigo-800 font-semibold">Sponsorships</a>
+            <a href="../index.html#faqs" class="block py-2 text-indigo-800 font-semibold">FAQs</a>
+            <a href="../index.html#contact" class="block py-2 text-indigo-800 font-semibold">Contact</a> -->
+            <a href="#" class="block py-2 text-red-700 font-semibold">Logout</a>
+        </nav>
+    </header>
+
+    <div class="flex pt-24 min-h-screen">
+        <!-- Sidebar -->
+        <aside
+            class="hidden md:block w-64 bg-white bg-opacity-90 shadow-lg border-r border-indigo-100 flex-col py-8 px-4 sticky top-24 h-full">
+            <div class="flex flex-col gap-4">
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold bg-indigo-100 hover:bg-indigo-200 transition"
+                    data-section="overviewSection"><i class="fas fa-home"></i> Dashboard Home</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    data-section="eventsSection"><i class="fas fa-calendar-check"></i> My Events</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    data-section="registerSection"><i class="fas fa-plus-circle"></i> Register for Events</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    data-section="accommodationSection"><i class="fas fa-bed"></i> Accommodation</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    data-section="paymentsSection"><i class="fas fa-credit-card"></i> Payments</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    data-section="profileSection"><i class="fas fa-user"></i> Profile</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    data-section="teamsSection"><i class="fas fa-users"></i> Team Registration</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    data-section="roundsSection"><i class="fas fa-trophy"></i> Event Rounds</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    data-section="venuesSection"><i class="fas fa-building"></i> Venue Schedule</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-red-700 font-semibold hover:bg-red-100 transition"
+                    onclick="auth.logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex justify-center px-4 py-8">
+            <div class="w-full max-w-3xl">
+                <!-- Overview Section -->
+                <section id="overviewSection">
+                    <!-- Content will be loaded dynamically by JS -->
+                </section>
+
+                <!-- My Events Section -->
+                <section id="eventsSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">My Registered Events</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 justify-center">
+                            <!-- Dummy event cards
+                            <div class="bg-white rounded-xl shadow p-6 flex flex-col gap-2">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-indigo-600"><i class="fas fa-robot"></i></span>
+                                    <span class="font-semibold">AI Challenge</span>
+                                    <span
+                                        class="ml-auto px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Registered</span>
+                                </div>
+                                <div class="text-gray-600 text-sm">Date: 2024-05-20 | Venue: Main Hall</div>
+                                <div class="text-gray-600 text-sm">Round: Prelims</div>
+                                <div class="text-gray-700">Team: Alpha Coders</div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-6 flex flex-col gap-2">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-indigo-600"><i class="fas fa-gamepad"></i></span>
+                                    <span class="font-semibold">E-Sports Tournament</span>
+                                    <span
+                                        class="ml-auto px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs">Pending</span>
+                                </div>
+                                <div class="text-gray-600 text-sm">Date: 2024-05-22 | Venue: Gaming Arena</div>
+                                <div class="text-gray-600 text-sm">Round: Registration</div>
+                                <div class="text-gray-700">Team: Game Masters</div>
+                            </div>
+                        </div>
+                    </div> -->
+                </section>
+
+                <!-- Register for Events Section -->
+                <section id="registerSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Register for New Events</h2>
+                        <p class="text-gray-700 mb-4">Browse and register for available events below.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 justify-center">
+                            <!-- Dummy available event cards -->
+                            <div class="bg-white rounded-xl shadow p-6 flex flex-col gap-2">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-indigo-600"><i class="fas fa-lightbulb"></i></span>
+                                    <span class="font-semibold">Business Case Study</span>
+                                    <span
+                                        class="ml-auto px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">Open</span>
+                                </div>
+                                <div class="text-gray-600 text-sm">Date: 2024-05-23 | Venue: Seminar Room</div>
+                                <button
+                                    class="mt-2 py-2 px-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Accommodation Section -->
+                <section id="accommodationSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Accommodation</h2>
+
+                        <!-- Accommodation Request Form -->
+                        <div class="bg-white rounded-xl shadow p-6 mb-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Request Accommodation</h3>
+                            <form id="accommodationRequestForm" class="space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Number of People</label>
+                                        <input type="number" id="numPeople" min="1" max="4"
+                                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                            required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Budget per Night (Rs.)</label>
+                                        <input type="number" id="budget" min="1000" step="100"
+                                            class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                            required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Check-in Date</label>
+                                    <input type="date" id="checkInDate"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Check-out Date</label>
+                                    <input type="date" id="checkOutDate"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Special Requirements</label>
+                                    <textarea id="specialRequirements"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500" rows="3"
+                                        placeholder="Any special requirements or preferences..."></textarea>
+                                </div>
+                                <button type="submit"
+                                    class="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                                    Submit Request
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Current Accommodation Status -->
+                        <div class="bg-white rounded-xl shadow p-6 mb-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">My Accommodation Status</h3>
+                            <div id="accommodationStatus" class="space-y-4">
+                                <!-- Status will be loaded dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Available Accommodations -->
+                        <div class="bg-white rounded-xl shadow p-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Available Accommodations</h3>
+                            <div id="availableAccommodations" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Available accommodations will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Payments Section -->
+                <section id="paymentsSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Payments</h2>
+
+                        <!-- Payment Methods -->
+                        <div class="bg-white rounded-xl shadow p-6 mb-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Payment Methods</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Online Payment -->
+                                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <i class="fas fa-credit-card text-2xl text-indigo-600"></i>
+                                        <h4 class="font-semibold text-lg">Online Payment</h4>
+                                    </div>
+                                    <p class="text-gray-600 mb-4">Pay securely using credit/debit card or bank transfer
+                                    </p>
+                                    <button onclick="showOnlinePaymentModal()"
+                                        class="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                                        Pay Online
+                                    </button>
+                                </div>
+
+                                <!-- Manual Payment -->
+                                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <i class="fas fa-money-bill-wave text-2xl text-green-600"></i>
+                                        <h4 class="font-semibold text-lg">Manual Payment</h4>
+                                    </div>
+                                    <p class="text-gray-600 mb-4">Pay in person at the registration desk</p>
+                                    <button onclick="showManualPaymentModal()"
+                                        class="w-full py-2 px-4 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">
+                                        Request Manual Payment
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment History -->
+                        <div class="bg-white rounded-xl shadow p-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Payment History</h3>
+                            <div id="paymentHistory" class="space-y-4">
+                                <!-- Payment history will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Online Payment Modal -->
+                <div id="onlinePaymentModal"
+                    class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-indigo-700">Online Payment</h3>
+                            <button onclick="hideOnlinePaymentModal()" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <form id="onlinePaymentForm" class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Card Number</label>
+                                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456"
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500" required>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Expiry Date</label>
+                                    <input type="text" id="expiryDate" placeholder="MM/YY"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">CVV</label>
+                                    <input type="text" id="cvv" placeholder="123"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                        required>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Amount (Rs.)</label>
+                                <input type="number" id="paymentAmount" readonly
+                                    class="w-full p-2 border rounded-lg bg-gray-50">
+                            </div>
+                            <button type="submit"
+                                class="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                                Pay Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Manual Payment Modal -->
+                <div id="manualPaymentModal"
+                    class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-indigo-700">Manual Payment Request</h3>
+                            <button onclick="hideManualPaymentModal()" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-yellow-700 mb-2">Payment Instructions</h4>
+                                <p class="text-gray-600">Please visit the registration desk with the following:</p>
+                                <ul class="list-disc list-inside text-gray-600 mt-2">
+                                    <li>Your registration ID</li>
+                                    <li>Valid ID proof</li>
+                                    <li>Payment amount in cash</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Amount to Pay (Rs.)</label>
+                                <input type="number" id="manualPaymentAmount" readonly
+                                    class="w-full p-2 border rounded-lg bg-gray-50">
+                            </div>
+                            <button onclick="requestManualPayment()"
+                                class="w-full py-2 px-4 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">
+                                Confirm Manual Payment Request
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Receipt Modal -->
+                <div id="receiptModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                    <div class="bg-white rounded-xl p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-indigo-700">Payment Receipt</h3>
+                            <div class="flex gap-2">
+                                <button onclick="printReceipt()"
+                                    class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                                    <i class="fas fa-print mr-2"></i>Print
+                                </button>
+                                <button onclick="closeReceiptModal()" class="text-gray-500 hover:text-gray-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="receiptContent">
+                            <!-- Receipt content will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Status Update Modal -->
+                <div id="statusUpdateModal"
+                    class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+                    <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-indigo-700">Update Payment Status</h3>
+                            <button onclick="closeStatusUpdateModal()" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">Payment Status</label>
+                                <select id="paymentStatus"
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                    <option value="completed">Completed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Notes (Optional)</label>
+                                <textarea id="statusNotes" rows="3"
+                                    class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                    placeholder="Add any notes about the status update..."></textarea>
+                            </div>
+                            <button onclick="confirmStatusUpdate()"
+                                class="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                                Update Status
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Toast -->
+                <div id="notificationToast"
+                    class="fixed bottom-4 right-4 transform translate-y-full opacity-0 transition-all duration-300">
+                    <div class="bg-white rounded-lg shadow-lg p-4 flex items-center gap-3">
+                        <i id="toastIcon" class="fas fa-info-circle text-xl"></i>
+                        <p id="toastMessage" class="text-gray-700"></p>
+                    </div>
+                </div>
+
+                <!-- Profile Section -->
+                <section id="profileSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">My Profile</h2>
+                        <div class="bg-white rounded-xl shadow p-6 flex flex-col gap-2">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-indigo-600"><i class="fas fa-user"></i></span>
+                                <span class="font-semibold">John Doe</span>
+                            </div>
+                            <div class="text-gray-600 text-sm">Email: johndoe@email.com</div>
+                            <div class="text-gray-600 text-sm">Role: Participant</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Team Registration Section -->
+                <section id="teamsSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Team Registration</h2>
+
+                        <!-- Team Registration Form -->
+                        <div class="bg-white rounded-xl shadow p-6 mb-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Create New Team</h3>
+                            <form id="teamRegistrationForm" class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Select Event</label>
+                                    <select id="eventSelect"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                        <option value="">Select an event...</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Team Name</label>
+                                    <input type="text" id="teamName"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Team Members</label>
+                                    <select id="teamMembers"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                        multiple>
+                                        <option value="">Select team members...</option>
+                                    </select>
+                                </div>
+                                <button type="submit"
+                                    class="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                                    Register Team
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Registered Teams List -->
+                        <div class="bg-white rounded-xl shadow p-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">My Teams</h3>
+                            <div id="teamsList" class="space-y-4">
+                                <!-- Teams will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Event Rounds Section -->
+                <section id="roundsSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Event Rounds</h2>
+
+                        <!-- Event Selection -->
+                        <div class="bg-white rounded-xl shadow p-6 mb-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Select Event</h3>
+                            <select id="roundsEventSelect"
+                                class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                <option value="">Select an event...</option>
+                            </select>
+                        </div>
+
+                        <!-- Rounds Schedule -->
+                        <div class="bg-white rounded-xl shadow p-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Rounds Schedule</h3>
+                            <div id="roundsList" class="space-y-4">
+                                <!-- Rounds will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Venue Schedule Section -->
+                <section id="venuesSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Venue Schedule</h2>
+
+                        <!-- Date Range Selection -->
+                        <div class="bg-white rounded-xl shadow p-6 mb-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Select Date Range</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Start Date</label>
+                                    <input type="date" id="startDate"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">End Date</label>
+                                    <input type="date" id="endDate"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                            </div>
+                            <button onclick="generateVenueSchedule()"
+                                class="mt-4 w-full py-2 px-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                                Generate Schedule
+                            </button>
+                        </div>
+
+                        <!-- Venue Availability -->
+                        <div class="bg-white rounded-xl shadow p-6 mb-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Check Venue Availability</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Select Venue</label>
+                                    <select id="venueSelect"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                        <option value="">Select a venue...</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Select Date</label>
+                                    <input type="date" id="venueDate"
+                                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                            </div>
+                            <button onclick="checkVenueAvailability()"
+                                class="mt-4 w-full py-2 px-4 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">
+                                Check Availability
+                            </button>
+                        </div>
+
+                        <!-- Schedule Report -->
+                        <div class="bg-white rounded-xl shadow p-6">
+                            <h3 class="text-xl font-semibold text-indigo-700 mb-4">Schedule Report</h3>
+                            <div id="scheduleReport" class="space-y-4">
+                                <!-- Schedule report will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-indigo-900 to-blue-800 text-white py-8 mt-20">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <img src="../img/logo.png" alt="NASCON Logo" class="h-10 w-10 rounded-full">
+                <span class="font-bold text-xl tracking-wide">NASCON</span>
+            </div>
+            <div class="flex gap-6 text-lg">
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="text-sm text-indigo-100">&copy; 2024 NASCON. All rights reserved.</div>
+        </div>
+    </footer>
+</body>
+
+</html>

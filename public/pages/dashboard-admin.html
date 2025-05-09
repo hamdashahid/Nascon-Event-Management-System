@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - NASCON</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen font-sans bg-gray-100">
+    <!-- Navbar -->
+    <header class="fixed w-full z-30 top-0 left-0 transition-all duration-300">
+        <nav id="mainNavbar"
+            class="flex items-center justify-between px-8 py-4 bg-gradient-to-r from-indigo-900/80 to-blue-900/60 bg-opacity-70 backdrop-blur-lg border-b border-transparent shadow-none transition-all duration-300">
+            <div class="flex items-center gap-3">
+                <img src="../img/logo.png" alt="NASCON Logo" class="h-10 w-10 rounded-full shadow-lg">
+                <span
+                    class="font-extrabold text-2xl tracking-wider nav-title transition-colors duration-300">NASCON</span>
+            </div>
+            <!-- <div class="hidden md:flex gap-8 font-bold tracking-wide text-lg nav-links transition-colors duration-300">
+                <a href="../index.html#about" class="nav-link text-white transition-colors duration-300">About</a>
+                <a href="../pages/events.html" class="nav-link text-white transition-colors duration-300">Events</a>
+                <a href="../pages/sponsors.html"
+                    class="nav-link text-white transition-colors duration-300">Sponsorships</a>
+                <a href="../index.html#faqs" class="nav-link text-white transition-colors duration-300">FAQs</a>
+                <a href="../index.html#contact" class="nav-link text-white transition-colors duration-300">Contact</a>
+            </div> -->
+            <div class="flex gap-2">
+                <a id="logoutBtn" href="#"
+                    class="hidden md:inline-block py-2 px-5 bg-red-600 text-white rounded-lg font-bold tracking-wide hover:bg-red-700 transition shadow">Logout</a>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <nav id="mobileMenu"
+            class="md:hidden bg-white bg-opacity-90 border-t border-indigo-100 hidden flex-col gap-2 px-6 pb-4">
+            <!-- <a href="../index.html#about" class="block py-2 text-indigo-800 font-semibold">About</a>
+            <a href="../pages/events.html" class="block py-2 text-indigo-800 font-semibold">Events</a>
+            <a href="../pages/sponsors.html" class="block py-2 text-indigo-800 font-semibold">Sponsorships</a>
+            <a href="../index.html#faqs" class="block py-2 text-indigo-800 font-semibold">FAQs</a>
+            <a href="../index.html#contact" class="block py-2 text-indigo-800 font-semibold">Contact</a> -->
+            <a href="#" class="block py-2 text-red-700 font-semibold">Logout</a>
+        </nav>
+    </header>
+
+    <div class="flex pt-24 min-h-screen">
+        <!-- Sidebar -->
+        <aside
+            class="hidden md:block w-64 bg-white bg-opacity-90 shadow-lg border-r border-indigo-100 flex-col py-8 px-4 sticky top-24 h-full">
+            <div class="flex flex-col gap-4">
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold bg-indigo-100 hover:bg-indigo-200 transition"
+                    onclick="showSection('overview')"><i class="fas fa-home"></i> Dashboard Home</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('users')"><i class="fas fa-users"></i> User Management</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('events')"><i class="fas fa-calendar-alt"></i> Event Management</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('payments')"><i class="fas fa-credit-card"></i> Payments</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('sponsorships')"><i class="fas fa-hand-holding-usd"></i> Sponsorships</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('reports')"><i class="fas fa-chart-bar"></i> Reports</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-red-700 font-semibold hover:bg-red-100 transition"
+                    onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex justify-center px-4 py-8">
+            <div class="w-full max-w-4xl">
+                <!-- Overview Section -->
+                <div id="overviewSection"
+                    class="rounded-xl bg-gradient-to-br from-indigo-50 to-blue-100 shadow-lg p-6 mb-8">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-indigo-600 text-white rounded-full p-3 shadow-lg">
+                            <i class="fas fa-tachometer-alt fa-2x"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-indigo-900 mb-1">Welcome, Admin!</h2>
+                            <p class="text-gray-600 text-lg">Here's a quick overview of your event platform's key stats.
+                            </p>
+                        </div>
+                    </div>
+                    <div id="adminStatsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-6"></div>
+                </div>
+                <!-- Placeholder for other sections -->
+                <div id="usersSection" class="hidden"></div>
+                <div id="eventsSection" class="hidden"></div>
+                <div id="paymentsSection" class="hidden"></div>
+                <div id="sponsorshipsSection" class="hidden"></div>
+                <div id="reportsSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Reports & Analytics</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                            <div class="bg-white rounded-xl shadow p-4">
+                                <h3 class="text-lg font-semibold mb-2">Event Participation</h3>
+                                <canvas id="eventParticipationChart" height="200"></canvas>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-4">
+                                <h3 class="text-lg font-semibold mb-2">Venue Utilization</h3>
+                                <canvas id="venueUtilizationChart" height="200"></canvas>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-4">
+                                <h3 class="text-lg font-semibold mb-2">Financial Breakdown</h3>
+                                <canvas id="financialChart" height="200"></canvas>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-4">
+                                <h3 class="text-lg font-semibold mb-2">Accommodation Occupancy</h3>
+                                <canvas id="accommodationChart" height="200"></canvas>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-4">
+                                <h3 class="text-lg font-semibold mb-2">Participant Demographics</h3>
+                                <canvas id="demographicsChart" height="200"></canvas>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-4">
+                                <h3 class="text-lg font-semibold mb-2">Sponsorship Funds</h3>
+                                <canvas id="sponsorshipChart" height="200"></canvas>
+                            </div>
+                        </div>
+                        <!-- Tables will still be rendered by JS for details -->
+                        <div id="reportsTables"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-indigo-900 to-blue-800 text-white py-8 mt-20">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <img src="../img/logo.png" alt="NASCON Logo" class="h-10 w-10 rounded-full">
+                <span class="font-bold text-xl tracking-wide">NASCON</span>
+            </div>
+            <div class="flex gap-6 text-lg">
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="text-sm text-indigo-100">&copy; 2024 NASCON. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="../js/dashboard-admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+
+</html>

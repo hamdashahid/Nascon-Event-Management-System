@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Dashboard - NASCON</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .event-creation-form {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .category-description {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .notification.success {
+            background-color: #28a745;
+        }
+
+        .notification.error {
+            background-color: #dc3545;
+        }
+
+        .notification.info {
+            background-color: #17a2b8;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen font-sans bg-gray-100">
+    <!-- Navbar -->
+    <header class="fixed w-full z-30 top-0 left-0 transition-all duration-300">
+        <nav id="mainNavbar"
+            class="flex items-center justify-between px-8 py-4 bg-gradient-to-r from-indigo-900/80 to-blue-900/60 bg-opacity-70 backdrop-blur-lg border-b border-transparent shadow-none transition-all duration-300">
+            <div class="flex items-center gap-3">
+                <img src="../img/logo.png" alt="NASCON Logo" class="h-10 w-10 rounded-full shadow-lg">
+                <span
+                    class="font-extrabold text-2xl tracking-wider nav-title transition-colors duration-300">NASCON</span>
+            </div>
+            <!-- <div class="hidden md:flex gap-8 font-bold tracking-wide text-lg nav-links transition-colors duration-300">
+                <a href="../index.html#about" class="nav-link text-white transition-colors duration-300">About</a>
+                <a href="../pages/events.html" class="nav-link text-white transition-colors duration-300">Events</a>
+                <a href="../pages/sponsors.html"
+                    class="nav-link text-white transition-colors duration-300">Sponsorships</a>
+                <a href="../index.html#faqs" class="nav-link text-white transition-colors duration-300">FAQs</a>
+                <a href="../index.html#contact" class="nav-link text-white transition-colors duration-300">Contact</a>
+            </div> -->
+            <div class="flex gap-2">
+                <a id="logoutBtn" href="#"
+                    class="hidden md:inline-block py-2 px-5 bg-red-600 text-white rounded-lg font-bold tracking-wide hover:bg-red-700 transition shadow">Logout</a>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <nav id="mobileMenu"
+            class="md:hidden bg-white bg-opacity-90 border-t border-indigo-100 hidden flex-col gap-2 px-6 pb-4">
+            <!-- <a href="../index.html#about" class="block py-2 text-indigo-800 font-semibold">About</a>
+            <a href="../pages/events.html" class="block py-2 text-indigo-800 font-semibold">Events</a>
+            <a href="../pages/sponsors.html" class="block py-2 text-indigo-800 font-semibold">Sponsorships</a>
+            <a href="../index.html#faqs" class="block py-2 text-indigo-800 font-semibold">FAQs</a>
+            <a href="../index.html#contact" class="block py-2 text-indigo-800 font-semibold">Contact</a> -->
+            <a href="#" class="block py-2 text-red-700 font-semibold">Logout</a>
+        </nav>
+    </header>
+
+    <div class="flex pt-24 min-h-screen">
+        <!-- Sidebar -->
+        <aside
+            class="hidden md:block w-64 bg-white bg-opacity-90 shadow-lg border-r border-indigo-100 flex-col py-8 px-4 sticky top-24 h-full">
+            <div class="flex flex-col gap-4">
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold bg-indigo-100 hover:bg-indigo-200 transition"
+                    onclick="showSection('overview')"><i class="fas fa-home"></i> Dashboard Home</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('myevents')"><i class="fas fa-calendar-check"></i> My Events</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('createevent')"><i class="fas fa-plus-circle"></i> Create Event</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('venues')"><i class="fas fa-building"></i> Venues</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('participants')"><i class="fas fa-users"></i> Participants</button>
+                <!-- <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('payments')"><i class="fas fa-credit-card"></i> Payments</button>
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-indigo-700 font-semibold hover:bg-indigo-100 transition"
+                    onclick="showSection('messages')"><i class="fas fa-envelope"></i> Messages</button>
+                 -->
+                <button
+                    class="sidebar-link flex items-center gap-3 px-4 py-2 rounded-lg text-red-700 font-semibold hover:bg-red-100 transition"
+                    onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex justify-center px-4 py-8">
+            <div class="w-full max-w-4xl">
+                <!-- Overview Section -->
+                <section id="overviewSection">
+                    <div class="glass p-8 mb-8 flex flex-col items-center text-center">
+                        <h2 class="text-2xl md:text-3xl font-bold text-indigo-800 mb-2">Welcome, <span
+                                id="organizerName">Organizer</span>!</h2>
+                        <p class="text-gray-700 mb-4">Here's a quick overview of your events and stats.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 w-full mt-4 justify-center">
+                            <div class="bg-white rounded-xl shadow p-6 flex flex-col items-center">
+                                <div class="text-indigo-600 text-3xl mb-2"><i class="fas fa-calendar-check"></i></div>
+                                <div class="text-2xl font-bold">5</div>
+                                <div class="text-gray-600">Events Managed</div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-6 flex flex-col items-center">
+                                <div class="text-indigo-600 text-3xl mb-2"><i class="fas fa-users"></i></div>
+                                <div class="text-2xl font-bold">120</div>
+                                <div class="text-gray-600">Participants</div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-6 flex flex-col items-center">
+                                <div class="text-indigo-600 text-3xl mb-2"><i class="fas fa-building"></i></div>
+                                <div class="text-2xl font-bold">3</div>
+                                <div class="text-gray-600">Venues Booked</div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow p-6 flex flex-col items-center">
+                                <div class="text-indigo-600 text-3xl mb-2"><i class="fas fa-credit-card"></i></div>
+                                <div class="text-2xl font-bold">Rs. 25K</div>
+                                <div class="text-gray-600">Payments</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- My Events Section -->
+                <section id="myeventsSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">My Events</h2>
+                        <p class="text-gray-700 mb-4">Manage your assigned events below.</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded-xl shadow">
+                                <thead>
+                                    <tr class="bg-indigo-100 text-indigo-800">
+                                        <th class="py-2 px-4">Event</th>
+                                        <th class="py-2 px-4">Date</th>
+                                        <th class="py-2 px-4">Venue</th>
+                                        <th class="py-2 px-4">Participants</th>
+                                        <th class="py-2 px-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">AI Challenge</td>
+                                        <td class="py-2 px-4">2024-05-20</td>
+                                        <td class="py-2 px-4">Main Hall</td>
+                                        <td class="py-2 px-4">40</td>
+                                        <td class="py-2 px-4 flex gap-2">
+                                            <!-- <button
+                                                class="py-1 px-3 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs">Edit</button>
+                                            <button
+                                                class="py-1 px-3 bg-green-600 text-white rounded hover:bg-green-700 text-xs">View</button> -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Business Case Study</td>
+                                        <td class="py-2 px-4">2024-05-23</td>
+                                        <td class="py-2 px-4">Seminar Room</td>
+                                        <td class="py-2 px-4">30</td>
+                                        <td class="py-2 px-4 flex gap-2">
+                                            <!-- <button
+                                                class="py-1 px-3 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs">Edit</button>
+                                            <button
+                                                class="py-1 px-3 bg-green-600 text-white rounded hover:bg-green-700 text-xs">View</button> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Event Creation Form -->
+                <section id="createeventSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Create New Event</h2>
+                        <div class="event-creation-form">
+                            <form id="createEventForm">
+                                <div class="form-group">
+                                    <label for="eventName">Event Name</label>
+                                    <input type="text" id="eventName" name="eventName" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea id="description" name="description" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="eventCategory">Category</label>
+                                    <select id="eventCategory" name="category" required>
+                                        <option value="">Select Category</option>
+                                    </select>
+                                    <p id="categoryDescription" class="category-description"></p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="eventDate">Event Date</label>
+                                    <input type="date" id="eventDate" name="eventDate" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="maxParticipants">Maximum Participants</label>
+                                    <input type="number" id="maxParticipants" name="maxParticipants" min="1" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="venue">Venue</label>
+                                    <select id="venue" name="venue" required>
+                                        <option value="">Select Venue</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="registrationFee">Registration Fee</label>
+                                    <input type="number" id="registrationFee" name="registrationFee" min="0" step="0.01"
+                                        required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Create Event</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Venues Section -->
+                <section id="venuesSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Venues</h2>
+                        <p class="text-gray-700 mb-4">View and manage venues for your events.</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded-xl shadow">
+                                <thead>
+                                    <tr class="bg-indigo-100 text-indigo-800">
+                                        <th class="py-2 px-4">Venue</th>
+                                        <th class="py-2 px-4">Capacity</th>
+                                        <th class="py-2 px-4">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Venue rows will be dynamically inserted by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Participants Section -->
+                <section id="participantsSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Participants</h2>
+                        <p class="text-gray-700 mb-4">View participants registered for your events.</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded-xl shadow">
+                                <thead>
+                                    <tr class="bg-indigo-100 text-indigo-800">
+                                        <th class="py-2 px-4">Name</th>
+                                        <th class="py-2 px-4">Event</th>
+                                        <th class="py-2 px-4">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Participant rows will be dynamically inserted by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Payments Section -->
+                <section id="paymentsSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Payments</h2>
+                        <p class="text-gray-700 mb-4">View payments related to your events.</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded-xl shadow">
+                                <thead>
+                                    <tr class="bg-indigo-100 text-indigo-800">
+                                        <th class="py-2 px-4">Participant</th>
+                                        <th class="py-2 px-4">Event</th>
+                                        <th class="py-2 px-4">Amount</th>
+                                        <th class="py-2 px-4">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">John Doe</td>
+                                        <td class="py-2 px-4">AI Challenge</td>
+                                        <td class="py-2 px-4">Rs. 2000</td>
+                                        <td class="py-2 px-4"><span
+                                                class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Paid</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Jane Smith</td>
+                                        <td class="py-2 px-4">Business Case Study</td>
+                                        <td class="py-2 px-4">Rs. 1500</td>
+                                        <td class="py-2 px-4"><span
+                                                class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs">Pending</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Messages Section -->
+                <section id="messagesSection" class="hidden">
+                    <div class="glass p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-indigo-800 mb-4">Messages</h2>
+                        <p class="text-gray-700 mb-4">Communicate with participants and judges.</p>
+                        <div class="bg-white rounded-xl shadow p-6 flex flex-col gap-2">
+                            <div class="text-gray-600">(Messaging UI goes here.)</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-indigo-900 to-blue-800 text-white py-8 mt-20">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <img src="../img/logo.png" alt="NASCON Logo" class="h-10 w-10 rounded-full">
+                <span class="font-bold text-xl tracking-wide">NASCON</span>
+            </div>
+            <div class="flex gap-6 text-lg">
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="hover:text-indigo-300 transition"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="text-sm text-indigo-100">&copy; 2024 NASCON. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="../js/dashboard-organizer.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - NASCON</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-gradient-to-br from-indigo-50 to-blue-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+        <h2 class="text-2xl font-bold text-indigo-700 mb-6 text-center">Sign Up for NASCON</h2>
+        <form id="signupForm" class="space-y-4">
+            <div>
+                <label class="block text-gray-700">Name</label>
+                <input type="text" id="signupName" required
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div>
+                <label class="block text-gray-700">Email</label>
+                <input type="email" id="signupEmail" required
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div>
+                <label class="block text-gray-700">Password</label>
+                <input type="password" id="signupPassword" required
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+            <div>
+                <label class="block text-gray-700">Role</label>
+                <select id="signupRole" required
+                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                    <option value="">Select Role</option>
+                    <option value="participant">Participant</option>
+                    <option value="organizer">Organizer</option>
+                    <option value="sponsor">Sponsor</option>
+                    <option value="judge">Judge</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div id="signupError" class="text-red-600 text-sm hidden"></div>
+            <button type="submit"
+                class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition">Sign
+                Up</button>
+        </form>
+        <p class="mt-4 text-center text-gray-600">Already have an account? <a href="login.html"
+                class="text-indigo-600 hover:underline">Login</a></p>
+    </div>
+    <script src="../js/signup.js"></script>
+</body>
+
+</html>
