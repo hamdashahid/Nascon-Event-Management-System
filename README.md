@@ -1,12 +1,13 @@
-# 📚 NASCON Event Management System – Backend
+# 🎉 NASCON Event Management System – Backend
 
-This is the backend for the NASCON Event Management System – a comprehensive solution to manage event registration, scheduling, sponsorships, accommodations, user roles, and evaluation processes for the National Student Convention.
+Welcome to the **NASCON Event Management System Backend**!  
+A robust, scalable solution for managing every aspect of the National Student Convention, from registrations and scheduling to sponsorships, accommodations, and evaluations.
 
 ---
 
-## 📁 Project Structure
+## 🗂️ Project Structure
 
-```
+```text
 .
 ├── server.js               # Main server file
 ├── .env                    # Environment variables
@@ -23,37 +24,35 @@ This is the backend for the NASCON Event Management System – a comprehensive s
 
 ---
 
-## 🚀 Features
+## ✨ Key Features
 
-- ✅ User authentication & JWT-based security
-- 🗓️ Event and venue scheduling
-- 🧑‍⚖️ Judge and evaluation system
-- 💰 Sponsorship and payment tracking
-- 🛏️ Accommodation handling
-- 📊 Reporting and analytics-ready structure
+- 🔒 **Secure Authentication:** JWT-based user login & role management
+- 🗓️ **Event Scheduling:** Effortless event & venue management
+- 🧑‍⚖️ **Judging System:** Streamlined judge assignment & evaluation
+- 💸 **Sponsorships:** Track sponsors and payments with ease
+- 🏨 **Accommodations:** Manage participant stays efficiently
+- 📈 **Analytics-Ready:** Structured for insightful reporting
 
 ---
 
-## ⚙️ Setup Instructions
+## ⚡ Quick Start
 
-Follow these steps to run the project locally:
-
-### 1. 📦 Clone the Repository
+### 1. 🚀 Clone the Repository
 
 ```bash
-git clone `https://github.com/hamdashahid/Nascon-Event-Management-System.git`
+git clone https://github.com/hamdashahid/Nascon-Event-Management-System.git
 cd i230069_i230114_i221380-2
 ```
 
-### 2. 📥 Install Dependencies
+### 2. 📦 Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. 🔐 Configure Environment Variables
+### 3. 🔑 Configure Environment
 
-Create a `.env` file in the project root with the following content:
+Create a `.env` file in the root directory:
 
 ```env
 DB_HOST=localhost
@@ -64,40 +63,46 @@ PORT=3000
 JWT_SECRET=your_jwt_secret
 ```
 
-Replace the placeholders with your actual database credentials.
+> Replace placeholders with your actual credentials.
 
-### 4. 🧱 Initialize the Database
-
-Run the schema script to create the required tables:
+### 4. 🏗️ Initialize the Database
 
 ```bash
 mysql -u root -p < database/cleaned_schema.sql
 ```
+*You can also review `query.sql` for sample data and queries.*
 
-You can also inspect or modify `query.sql` for predefined data or queries.
-
-### 5. ▶️ Run the Server
+### 5. ▶️ Start the Server
 
 ```bash
 node server.js
 ```
-
-The server should now be running on `http://localhost:3000`.
+Server runs at: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📬 Sample API Endpoints
+## 📡 Sample API Endpoints
 
-> (Add more details here based on your `server.js` or route handlers.)
+| Method | Endpoint         | Description                |
+|--------|------------------|----------------------------|
+| POST   | `/login`         | User login                 |
+| POST   | `/register`      | New user registration      |
+| GET    | `/events`        | List all events            |
+| POST   | `/sponsor`       | Add sponsor information    |
+| GET    | `/judges`        | Retrieve judge data        |
 
-- `POST /login` – User login
-- `POST /register` – New user registration
-- `GET /events` – List of all events
-- `POST /sponsor` – Add sponsor info
-- `GET /judges` – Retrieve judge data
+> _Expand this section with more endpoints as your API grows!_
 
 ---
 
 ## 📝 License
 
-This project is intended for academic use only and is part of the Semester Project 2 for the Database Systems course at FAST NUCES.
+> **Academic Use Only**  
+> This project is part of Semester Project 2 for the Database Systems course at FAST NUCES.
+
+---
+
+<p align="center">
+    <img src="https://img.shields.io/badge/Node.js-Backend-green?style=for-the-badge&logo=node.js" alt="Node.js Backend" />
+    <img src="https://img.shields.io/badge/MySQL-Database-blue?style=for-the-badge&logo=mysql" alt="MySQL Database" />
+</p>
