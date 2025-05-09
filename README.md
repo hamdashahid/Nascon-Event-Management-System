@@ -40,9 +40,11 @@ A robust, scalable solution for managing every aspect of the National Student Co
 ### 1. 🚀 Clone the Repository
 
 ```bash
-git clone [https://github.com/hamdashahid/Nascon-Event-Management-System.git](https://github.com/hamdashahid/Nascon-Event-Management-System.git)
+git clone https://github.com/hamdashahid/Nascon-Event-Management-System.git
 cd Nascon-Event-Management-System
 ```
+
+[Click here to view the repository on GitHub.](https://github.com/hamdashahid/Nascon-Event-Management-System)
 
 ### 2. 📦 Install Dependencies
 
