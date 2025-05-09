@@ -41,7 +41,7 @@ Follow these steps to run the project locally:
 ### 1. 📦 Clone the Repository
 
 ```bash
-git clone https://github.com/hamdashahid/Nascon-Event-Management-System.git
+git clone `https://github.com/hamdashahid/Nascon-Event-Management-System.git`
 cd i230069_i230114_i221380-2
 ```
 
